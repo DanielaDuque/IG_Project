@@ -20,6 +20,38 @@ Camera::~Camera()
 
 void Camera::animate(float time)
 {
+        // Water Effect with camera moving
+    const float radius = 6.0f;
+    float camY =   cos(time) * radius ;
+    float camX =   sin(time) * radius ;
+    float camZ =   max (2.0f , sin(time) * radius );
+
+    if( time > 83 )
+    {
+
+        setViewMatrix( glm::lookAt(   glm::vec3( camX + 390, camY -35, 30 - camZ), 
+                                                        glm::vec3(390, -35, 0), 
+                                                        glm::vec3( 0, 1, 0 ) ) );
+    }
+    else if( time > 44 )
+    {
+        setViewMatrix( glm::lookAt(   glm::vec3( camX + 190, camY -35, 30 - camZ), 
+                                                        glm::vec3(190, -35, 0), 
+                                                        glm::vec3( 0, 1, 0 ) ) );
+    }
+    else if (time > 19.5  )
+    {
+        setViewMatrix( glm::lookAt(   glm::vec3( camX -180, camY -35, 20 - camZ), 
+                                                        glm::vec3(-180, -35, 0), 
+                                                        glm::vec3( 0, 1, 0 ) ) );
+    }
+    else if (time > 0)
+    {
+        
+        setViewMatrix( glm::lookAt(  glm::vec3( camX, camY, 20 ), 
+                                                        glm::vec3( 0, 0, 0), 
+                                                        glm::vec3( 0, 1, 0 ) ) );
+    }
 }
 
 const glm::mat4& Camera::viewMatrix() const

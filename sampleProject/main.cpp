@@ -201,7 +201,7 @@ void movingVisor(LightedMeshRenderablePtr visor, float initialTime, float durati
 void Scene1 (Viewer& viewer, LightedMeshRenderablePtr submarine, LightedMeshRenderablePtr aletas){
 
     // Moving of submarine
-    movingSubmarine( submarine, 0, glm::vec3(0),21);
+    movingSubmarine( submarine, 0, glm::vec3(0,0,-10),21);
 
     // Moving Aletas    
     movingAletas (aletas, 0,21);
@@ -212,7 +212,7 @@ void Scene1 (Viewer& viewer, LightedMeshRenderablePtr submarine, LightedMeshRend
 void Scene2 (Viewer& viewer, ShaderProgramPtr flatShader, float initialTime, float duration){
 
     float time = initialTime;
-    int pos_x = -55;
+    int pos_x = -175;
     for (int i = 1; i < 6; i++)
     {
         if ( i %2 == 0){
@@ -241,7 +241,7 @@ void Scene3 (Viewer& viewer, ShaderProgramPtr flatShader,
 
         // Sea Horse
         float time = initialTime;
-        int pos_x = 75;
+        int pos_x = 175;
         for (int i = 0; i < 5; i++)
         {
             if ( i %2 == 0){
@@ -264,40 +264,13 @@ void Scene3 (Viewer& viewer, ShaderProgramPtr flatShader,
 
         // Submarine
             // Moving of submarine
-        submarine->addParentTransformKeyframe(GeometricTransformation( glm::vec3(52 , -45, -10 ), glm::angleAxis(-3.14f / 2, glm::vec3(0.0,1.0,0)), 
+        submarine->addParentTransformKeyframe(GeometricTransformation( glm::vec3(152 , -45, -10 ), glm::angleAxis(-3.14f / 2, glm::vec3(0.0,1.0,0)), 
                                                             glm::vec3(1,1,1)),initialTime-10);
-        movingSubmarine( submarine, initialTime, glm::vec3(52 , -45, -10 ),duration);
+        movingSubmarine( submarine, initialTime, glm::vec3(152 , -45, -10 ),duration);
             // Moving Aletas    
         movingAletas (aletas, initialTime,duration);
             //Moving Visor
         movingVisor(visor,initialTime,duration);
-}
-
-
-void movingCamera(Viewer& viewer){
-    if( viewer.getTime() > 44)
-    {
-        viewer.getCamera().setViewMatrix( glm::lookAt(  glm::vec3( 90, -35, 25 ), 
-                                                        glm::vec3(90, -35, 0), 
-                                                        glm::vec3( 0, 1, 0 ) ) );
-    }
-    else if (viewer.getTime() > 19.5)
-    {
-     //std::cout << viewer.getTime() << std::endl;
-       viewer.getCamera().setViewMatrix( glm::lookAt(   glm::vec3( -60, -35, 20 ), 
-                                                        glm::vec3(-60, -35, 0), 
-                                                        glm::vec3( 0, 1, 0 ) ) );
-    }
-    else
-    {
-
-        //std::cout << viewer.getTime() << std::endl;
-        const float radius = 30.0f;
-        float camZ = std::min ( 20.0, cos(viewer.getTime()) * radius );
-        viewer.getCamera().setViewMatrix( glm::lookAt(  glm::vec3( 0, 0, 20 ), 
-                                                        glm::vec3( 0, 0, 0), 
-                                                        glm::vec3( 0, 1, 0 ) ) );
-    }
 }
 
 void initialize_scene( Viewer& viewer )
@@ -311,13 +284,6 @@ void initialize_scene( Viewer& viewer )
     ShaderProgramPtr phongShader = std::make_shared<ShaderProgram>( "../../sfmlGraphicsPipeline/shaders/phongVertex.glsl", 
                                                                     "../../sfmlGraphicsPipeline/shaders/phongFragment.glsl");
     viewer.addShaderProgram( phongShader );
-
-
-    //Add a 3D frame to the viewer
-    FrameRenderablePtr frame = std::make_shared<FrameRenderable>(flatShader);
-    viewer.addRenderable(frame);
-
-
 
 
     //Temporary variables
@@ -393,7 +359,6 @@ int main()
 	Viewer viewer(1280,720);
 	initialize_scene(viewer);
     viewer.startAnimation();
-     movingCamera(viewer);
 
 	while( viewer.isRunning() )
 	{
@@ -401,7 +366,6 @@ int main()
 		viewer.animate();
 		viewer.draw();
 		viewer.display();
-        movingCamera(viewer);
        
         
         
