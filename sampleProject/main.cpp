@@ -180,27 +180,77 @@ void Scene3 (Viewer& viewer, ShaderProgramPtr flatShader,
 }
 
  
-void createSubmarine(Viewer& viewer, ShaderProgramPtr flatShader){
+LightedMeshRenderablePtr* createSubmarine(Viewer& viewer, ShaderProgramPtr flatShader){
+    MaterialPtr silver = Material::Silver();
+    MaterialPtr pearl = Material::Pearl();
+    MaterialPtr emerald = Material::Emerald();
     MaterialPtr bronze = Material::Bronze();
-    LightedMeshRenderablePtr submarine = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/cuerpo.obj");
-    submarine->setMaterial(bronze);
+    MaterialPtr turquoise = Material::Turquoise();
+    MaterialPtr whiteRubber = Material::WhiteRubber();
+    MaterialPtr yellowRubber = Material::YellowRubber();
+    MaterialPtr gold = Material::Gold();
+    MaterialPtr ruby = Material::Ruby();
+    MaterialPtr green = Material::Green();
 
-    MaterialPtr esmerald = Material::Emerald();
-    LightedMeshRenderablePtr aleta = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/aletas.obj");
-    aleta->setMaterial(esmerald);
 
-    MaterialPtr esmerald_visor = Material::Emerald();
-    LightedMeshRenderablePtr visor = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/visor.obj");
-    visor->setMaterial(esmerald_visor);
+    LightedMeshRenderablePtr* subamrineGroup= new LightedMeshRenderablePtr[10];
 
-    HierarchicalRenderable :: addChild(submarine , visor);
-    HierarchicalRenderable :: addChild(submarine , aleta);
+    // Cuerpo
+    subamrineGroup[0] = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/cuerpo.obj");
+    subamrineGroup[0]->setMaterial(silver);
 
-    Scene1( viewer, submarine, aleta);
-    Scene3 ( viewer,  flatShader, submarine,  aleta, visor );
-    viewer.addRenderable( submarine);
-    viewer.addRenderable(aleta);
-    viewer.addRenderable(visor);
+    // Aletas
+     subamrineGroup[1] = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/aletas.obj");
+    subamrineGroup[1]->setMaterial(ruby);
+
+    // Visor
+     subamrineGroup[2] = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/visor.obj");
+    subamrineGroup[2]->setMaterial(bronze);
+
+    // Cola
+     subamrineGroup[3] = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/cola.obj");
+    subamrineGroup[3]->setMaterial(yellowRubber);
+
+    // Ventana Lateral
+     subamrineGroup[4] = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/ventana_laterales.obj");
+    subamrineGroup[4]->setMaterial(gold);
+
+    // Ventana Principal
+     subamrineGroup[5] = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/ventana_principal.obj");
+    subamrineGroup[5]->setMaterial(gold);
+
+    // Ventana visor
+     subamrineGroup[6] = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/ventana_visor.obj");
+    subamrineGroup[6]->setMaterial(gold);
+
+    // Vidrio Lateral
+     subamrineGroup[7] = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/vidrio_laterales.obj");
+    subamrineGroup[7]->setMaterial(turquoise);
+
+    // Vidio Principal
+     subamrineGroup[8] = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/vidrio_principal.obj");
+    subamrineGroup[8]->setMaterial(turquoise);
+
+    // Vidrio visor
+     subamrineGroup[9] = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/vidrio_visor.obj");
+    subamrineGroup[9]->setMaterial(turquoise);
+    
+
+    // Children
+    HierarchicalRenderable :: addChild(subamrineGroup[0], subamrineGroup[1]);
+    HierarchicalRenderable :: addChild(subamrineGroup[0], subamrineGroup[2]);
+    HierarchicalRenderable :: addChild(subamrineGroup[0], subamrineGroup[3]);
+    HierarchicalRenderable :: addChild(subamrineGroup[0], subamrineGroup[4]);
+    HierarchicalRenderable :: addChild(subamrineGroup[0], subamrineGroup[5]);
+    HierarchicalRenderable :: addChild(subamrineGroup[2], subamrineGroup[6]);
+    HierarchicalRenderable :: addChild(subamrineGroup[0], subamrineGroup[7]);
+    HierarchicalRenderable :: addChild(subamrineGroup[0], subamrineGroup[8]);
+    HierarchicalRenderable :: addChild(subamrineGroup[2], subamrineGroup[9]);
+
+
+    return subamrineGroup;
+    //movingSubmarine( viewer, submarine);
+    
 }
 
 void movingCamera(Viewer& viewer){
@@ -222,8 +272,8 @@ void movingCamera(Viewer& viewer){
 
         //std::cout << viewer.getTime() << std::endl;
         const float radius = 30.0f;
-        float camZ = std::min ( 20, cos(viewer.getTime()) * radius );
-        viewer.getCamera().setViewMatrix( glm::lookAt(  glm::vec3( 0, 0, camZ ), 
+        float camZ = std::min ( 20.0, cos(viewer.getTime()) * radius );
+        viewer.getCamera().setViewMatrix( glm::lookAt(  glm::vec3( 0, 0, 20 ), 
                                                         glm::vec3( 0, 0, 0), 
                                                         glm::vec3( 0, 1, 0 ) ) );
     }
@@ -254,8 +304,17 @@ void initialize_scene( Viewer& viewer )
 
     // Adding submarine
 
-    createSubmarine(viewer,  phongShader);
+    LightedMeshRenderablePtr* submarineGroup = new LightedMeshRenderablePtr[10];
+    submarineGroup = createSubmarine(viewer,  phongShader);
+    for (int i = 0; i < 10; i++)
+    {
+        viewer.addRenderable( submarineGroup[i] );
+    }
+
+    // ------------- Scenes -----------
+    Scene1( viewer, submarineGroup[0], submarineGroup[1]);
     Scene2 ( viewer, phongShader);
+    Scene3 ( viewer,  phongShader, submarineGroup[0],  submarineGroup[1], submarineGroup[2] );
     
 
 //Define a directional light for the whole scene
