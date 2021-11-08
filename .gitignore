@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+#build Folders
+sampleProject/build
+sfmlGraphicsPipeline/build
