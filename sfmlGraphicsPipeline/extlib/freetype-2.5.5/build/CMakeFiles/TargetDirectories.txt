@@ -1,10 +1,10 @@
-/home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/install/strip.dir
-/home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/install/local.dir
-/home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/edit_cache.dir
-/home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/package_source.dir
-/home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/install.dir
-/home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/list_install_components.dir
-/home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/rebuild_cache.dir
-/home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/package.dir
-/home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/dist.dir
-/home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/freetype.dir
+/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/install/strip.dir
+/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/install/local.dir
+/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/edit_cache.dir
+/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/package_source.dir
+/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/install.dir
+/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/list_install_components.dir
+/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/rebuild_cache.dir
+/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/package.dir
+/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/dist.dir
+/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/freetype.dir

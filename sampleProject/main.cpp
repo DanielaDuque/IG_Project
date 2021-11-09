@@ -83,16 +83,32 @@ void createParticle(Viewer& viewer, DynamicSystemPtr& system, DynamicSystemRende
 }
 
 LightedMeshRenderablePtr* createSubmarine(Viewer& viewer, ShaderProgramPtr flatShader){
-    MaterialPtr silver = Material::Silver();
-    MaterialPtr pearl = Material::Pearl();
-    MaterialPtr emerald = Material::Emerald();
-    MaterialPtr bronze = Material::Bronze();
-    MaterialPtr turquoise = Material::Turquoise();
-    MaterialPtr whiteRubber = Material::WhiteRubber();
-    MaterialPtr yellowRubber = Material::YellowRubber();
-    MaterialPtr gold = Material::Gold();
-    MaterialPtr ruby = Material::Ruby();
-    MaterialPtr green = Material::Green();
+
+    MaterialPtr silver = Material::Silver();                    // Plata
+    MaterialPtr pearl = Material::Pearl();                      // Rosado - Blanco
+    MaterialPtr emerald = Material::Emerald();                  // Verde Esmeralda 
+    MaterialPtr bronze = Material::Bronze();                    // Bronce claro
+    MaterialPtr turquoise = Material::Turquoise();              // Azul metalizado 
+    MaterialPtr gold = Material::Gold();                        // Gold
+    MaterialPtr ruby = Material::Ruby();                        // Rojo
+    MaterialPtr brass = Material::Brass();                      // Amarillo
+    MaterialPtr copper = Material::Copper();                    // Naranja
+    MaterialPtr chrome = Material::Chrome();                    // Gris claro
+    MaterialPtr jade = Material::Jade();                        // Verde Claro
+    MaterialPtr obsidian = Material::Obsidian();                // Negro - Gris
+
+    MaterialPtr whiteRubber = Material::WhiteRubber();          // Negro Metalizado
+    MaterialPtr yellowRubber = Material::YellowRubber();        // Amarillo metalizado
+    MaterialPtr blackRubber = Material::BlackRubber();          // Negro profundo Metalizado
+    MaterialPtr cyanRubber = Material::CyanRubber();            // Azul metalizado
+    MaterialPtr greenRubber = Material::GreenRubber();          // verde metalizado
+    MaterialPtr redRubber = Material::RedRubber();              // Rojo Metalizado
+
+    MaterialPtr green = Material::Green();                      // Verde Oscuro (feo)
+    MaterialPtr red = Material::Red();                          // Rojo Oscuro
+    MaterialPtr cyan = Material::Cyan();                        // Verde - Aguamarina
+    MaterialPtr yellow = Material::Yellow();                    // Amarillo oscuro (feo)
+    MaterialPtr black = Material::Black();                      // Negro
 
 
     LightedMeshRenderablePtr* subamrineGroup= new LightedMeshRenderablePtr[10];
@@ -159,16 +175,85 @@ void movingSeahorse(float initialTime,
                     Viewer& viewer, ShaderProgramPtr flatShader, 
                     glm::vec3 initial_pos, float duration
                     ){
+/*
+    MaterialPtr* colors = new MaterialPtr[10];
+    
+    colors[0]  = Material::Silver();
+    colors[1]  = Material::Pearl();
+    colors[2]  = Material::Emerald();
+    colors[3]  = Material::Bronze();
+    colors[4]  = Material::Turquoise();
+    colors[5]  = Material::WhiteRubber();
+    colors[6]  = Material::YellowRubber();
+    colors[7]  = Material::Gold();
+    colors[8]  = Material::Ruby();
+    colors[9]  = Material::Green();
+    colors[10]  = Material::Chrome();
 
-    MaterialPtr bronze = Material::Bronze();
-    LightedMeshRenderablePtr seahorse = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/seahorse.obj");
-    seahorse->setMaterial(bronze);
+    int x = rand();
+
+*/
+    MaterialPtr silver = Material::Silver();                    // Plata
+    MaterialPtr pearl = Material::Pearl();                      // Rosado - Blanco
+    MaterialPtr emerald = Material::Emerald();                  // Verde Esmeralda 
+    MaterialPtr bronze = Material::Bronze();                    // Bronce claro
+    MaterialPtr turquoise = Material::Turquoise();              // Azul metalizado 
+    MaterialPtr gold = Material::Gold();                        // Gold
+    MaterialPtr ruby = Material::Ruby();                        // Rojo
+    MaterialPtr brass = Material::Brass();                      // Amarillo
+    MaterialPtr copper = Material::Copper();                    // Naranja
+    MaterialPtr chrome = Material::Chrome();                    // Gris claro
+    MaterialPtr jade = Material::Jade();                        // Verde Claro
+    MaterialPtr obsidian = Material::Obsidian();                // Negro - Gris
+
+    MaterialPtr whiteRubber = Material::WhiteRubber();          // Negro Metalizado
+    MaterialPtr yellowRubber = Material::YellowRubber();        // Amarillo metalizado
+    MaterialPtr blackRubber = Material::BlackRubber();          // Negro profundo Metalizado
+    MaterialPtr cyanRubber = Material::CyanRubber();            // Azul metalizado
+    MaterialPtr greenRubber = Material::GreenRubber();          // verde metalizado
+    MaterialPtr redRubber = Material::RedRubber();              // Rojo Metalizado
+
+    MaterialPtr green = Material::Green();                      // Verde Oscuro (feo)
+    MaterialPtr red = Material::Red();                          // Rojo Oscuro
+    MaterialPtr cyan = Material::Cyan();                        // Verde - Aguamarina
+    MaterialPtr yellow = Material::Yellow();                    // Amarillo oscuro (feo)
+    MaterialPtr black = Material::Black();                      // Negro
+    
+
+
+    LightedMeshRenderablePtr* seahorseGroup= new LightedMeshRenderablePtr[4];
+
+
+    //LightedMeshRenderablePtr seahorse = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/seahorse.obj");
+    //seahorse->setMaterial(bronze);
+
+    // Cuerpo
+    seahorseGroup[0] = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/seahorse.obj");
+    seahorseGroup[0]->setMaterial(gold);
+
+    // Estomago
+     seahorseGroup[1] = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/caballo_estomago.obj");
+    seahorseGroup[1]->setMaterial(copper);
+
+    // Cola
+    seahorseGroup[2] = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/caballo_cola.obj");
+    seahorseGroup[2]->setMaterial(pearl);
+
+    // Ojos
+    seahorseGroup[3] = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/caballo_ojos.obj");
+    seahorseGroup[3]->setMaterial(turquoise);
+
+    // Children
+    HierarchicalRenderable :: addChild(seahorseGroup[0], seahorseGroup[1]);
+    HierarchicalRenderable :: addChild(seahorseGroup[0], seahorseGroup[2]);
+    HierarchicalRenderable :: addChild(seahorseGroup[0], seahorseGroup[3]);
+    
 
 /*     glm::mat4 LocalTransform = glm::mat4(1);
     LocalTransform = glm::translate(LocalTransform, initial_pos);
     seahorse->setLocalTransform(LocalTransform); */
 
-    seahorse->addParentTransformKeyframe(GeometricTransformation( initial_pos,  glm::quat{1,0,0,0}, 
+    seahorseGroup[0]->addParentTransformKeyframe(GeometricTransformation( initial_pos,  glm::quat{1,0,0,0}, 
                                                             glm::vec3(2,2,2)),0); 
 
         // Moving of submarine
@@ -181,18 +266,18 @@ void movingSeahorse(float initialTime,
     {
         pos = initial_pos + glm::vec3(x_pos, y_pos, 0);
         if((int)i%2==0){
-            seahorse->addParentTransformKeyframe(GeometricTransformation( pos,  glm::quat{1,0,0,0}, 
+            seahorseGroup[0]->addParentTransformKeyframe(GeometricTransformation( pos,  glm::quat{1,0,0,0}, 
                                                             glm::vec3(3,3,3)),i); 
             y_pos +=4;                                                       
         }else{
-            seahorse->addParentTransformKeyframe(GeometricTransformation( pos, glm::quat{1,0,0,0}, 
+            seahorseGroup[0]->addParentTransformKeyframe(GeometricTransformation( pos, glm::quat{1,0,0,0}, 
                                                             glm::vec3(3,3,3)),i);
             y_pos -=3.7;
         }
         x_pos +=2;
     }
 	// Add the renderable to the Viewer
-	viewer.addRenderable ( seahorse );        
+	viewer.addRenderable ( seahorseGroup[0] );        
  }
 
  void movingSubmarine(LightedMeshRenderablePtr submarine, float initialTime, glm::vec3 initialPos, float duration){

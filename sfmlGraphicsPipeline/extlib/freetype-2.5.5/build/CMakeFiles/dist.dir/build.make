@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5
+CMAKE_SOURCE_DIR = "/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build
+CMAKE_BINARY_DIR = "/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build"
 
 # Utility rule file for dist.
 
@@ -71,6 +71,6 @@ CMakeFiles/dist.dir/clean:
 .PHONY : CMakeFiles/dist.dir/clean
 
 CMakeFiles/dist.dir/depend:
-	cd /home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5 /home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5 /home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build /home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build /home/daniela/Documents/insa/2021-2INFO_GRA/TP7_IG_2021-22/practical07/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/dist.dir/DependInfo.cmake --color=$(COLOR)
+	cd "/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5" "/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5" "/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build" "/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build" "/home/cristian/Desktop/INSA/INFO GRAPHIQUE/IG_Project/sfmlGraphicsPipeline/extlib/freetype-2.5.5/build/CMakeFiles/dist.dir/DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/dist.dir/depend
 

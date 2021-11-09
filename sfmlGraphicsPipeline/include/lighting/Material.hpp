@@ -137,10 +137,23 @@ public:
     static MaterialPtr Turquoise();
     static MaterialPtr WhiteRubber();
     static MaterialPtr YellowRubber();
+    static MaterialPtr BlackRubber();
+    static MaterialPtr CyanRubber();
+    static MaterialPtr GreenRubber();
+    static MaterialPtr RedRubber();
     static MaterialPtr Silver();
     static MaterialPtr Gold();
     static MaterialPtr Ruby();
+    static MaterialPtr Brass();
+    static MaterialPtr Copper();
     static MaterialPtr Green();
+    static MaterialPtr Chrome();
+    static MaterialPtr Jade();
+    static MaterialPtr Obsidian();
+    static MaterialPtr Red();
+    static MaterialPtr Cyan();
+    static MaterialPtr Yellow();
+    static MaterialPtr Black();
 
 private:
     glm::vec3 m_ambient; /*!< The ambient material vector defines what color this object reflects under ambient lighting. */

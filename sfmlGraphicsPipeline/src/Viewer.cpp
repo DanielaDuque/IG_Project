@@ -7,15 +7,32 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include <GL/irrKlang.h>
+#pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
+
 
 static const Viewer::Duration g_modeInformationTextTimeout = std::chrono::seconds( 3 );
 
 static const std::string screenshot_basename = "screenshot";
+/*
+using namespace irrklang;
+
+irrklang::ISoundEngine *SoundEngine = createIrrKlangDevice();
+
+static int  setSound(){
+irrklang::ISoundEngine* engine = irrklang::createIrrKlangDevice();
+engine->play2D("musica.mp3", true); // play some mp3 file, looped
+}
+
+*/
 
 static void  setBackground(){
     glcheck(glClearColor(0.18f,0.83f,0.78f,1.0f));
 }
+/*
+irrklang::ISoundEngine* engine = irrklang::createIrrKlangDevice();
 
+*/
 static void initializeGL()
 {
     //Initialize GLEW
@@ -27,6 +44,7 @@ static void initializeGL()
 
     //Initialize OpenGL context
     setBackground();
+    // setSound();
     glcheck(glEnable(GL_DEPTH_TEST));
     glcheck(glDepthFunc(GL_LESS));
     glcheck(glEnable(GL_VERTEX_PROGRAM_POINT_SIZE));
