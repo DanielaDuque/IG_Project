@@ -34,6 +34,8 @@
 # Build Folders
 sampleProject/build
 sfmlGraphicsPipeline/build
+sfmlGraphicsPipeline/extlib/freetype-2.5.5/build
+sfmlGraphicsPipeline/extlib/tinyobjloader/build
 
 # Precaución
 .vscode 
