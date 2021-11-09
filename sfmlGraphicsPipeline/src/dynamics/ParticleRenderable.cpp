@@ -43,9 +43,9 @@ ParticleRenderable::ParticleRenderable(ShaderProgramPtr shaderProgram, ParticleP
             m_normals.push_back( faceNormal );
             m_normals.push_back( faceNormal );
             m_normals.push_back( faceNormal );
-            m_colors.push_back( glm::vec4(1.0,0.0,0.0,1.0) );
-            m_colors.push_back( glm::vec4(1.0,0.0,0.0,1.0) );
-            m_colors.push_back( glm::vec4(1.0,0.0,0.0,1.0) );
+            m_colors.push_back( glm::vec4(1.0,1.0,1.0,0.2) );
+            m_colors.push_back( glm::vec4(1.0,1.0,1.0,0.2) );
+            m_colors.push_back( glm::vec4(1.0,1.0,1.0,0.2) );
 
             vTriangles[0] = center + glm::vec3(radius*cos(curr_theta)*sin(curr_phi), radius*sin(curr_theta)*sin(curr_phi), radius*cos(curr_phi));
             vTriangles[1] = center + glm::vec3(radius*cos(next_theta)*sin(next_phi), radius*sin(next_theta)*sin(next_phi), radius*cos(next_phi));
@@ -58,9 +58,9 @@ ParticleRenderable::ParticleRenderable(ShaderProgramPtr shaderProgram, ParticleP
             m_normals.push_back( faceNormal );
             m_normals.push_back( faceNormal );
             m_normals.push_back( faceNormal );
-            m_colors.push_back( glm::vec4(0.0,0.0,1.0,1.0) );
-            m_colors.push_back( glm::vec4(0.0,0.0,1.0,1.0) );
-            m_colors.push_back( glm::vec4(0.0,0.0,1.0,1.0) );
+            m_colors.push_back( glm::vec4(1.0,1.0,1.0,0.2) );
+            m_colors.push_back( glm::vec4(1.0,1.0,1.0,0.2) );
+            m_colors.push_back( glm::vec4(1.0,1.0,1.0,0.2) );
         }
     }
 
@@ -136,7 +136,17 @@ void ParticleRenderable::do_draw()
     }
 }
 
-void ParticleRenderable::do_animate(float time) {}
+void ParticleRenderable::addLocalTransformKeyframe( const GeometricTransformation& transformation, float time )
+{
+  m_localKeyframes.add( transformation, time );
+}
+
+void ParticleRenderable::do_animate(float time) {
+     if(!m_localKeyframes.empty())
+    {
+        setLocalTransform( m_localKeyframes.interpolateTransformation( time ) );
+    }
+}
 
 ParticleRenderable::~ParticleRenderable()
 {

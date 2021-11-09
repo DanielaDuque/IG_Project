@@ -7,6 +7,9 @@
 #include <vector>
 #include <glm/glm.hpp>
 
+
+#include "./../KeyframeCollection.hpp" 
+
 /**@brief Render a particle to the screen.
  *
  * Render a particle to the screen. Since a particle is modeled by
@@ -24,6 +27,7 @@ class ParticleRenderable : public HierarchicalRenderable
          * @param particle The particle to render.
          */
         ParticleRenderable( ShaderProgramPtr program, ParticlePtr particle );
+        void addLocalTransformKeyframe( const GeometricTransformation& transformation, float time );
 
     private:
         void do_draw();
@@ -34,6 +38,9 @@ class ParticleRenderable : public HierarchicalRenderable
         std::vector< glm::vec3 > m_positions;
         std::vector< glm::vec4 > m_colors;
         std::vector< glm::vec3 > m_normals;
+
+        KeyframeCollection m_localKeyframes; /*!< A collection of keyframes for the local transformation of renderable. */
+        
 
         unsigned int m_pBuffer;
         unsigned int m_cBuffer;

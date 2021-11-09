@@ -194,7 +194,7 @@ public:
      *
      * Reset the animation time to the beginning.
      */
-    void resetAnimation();
+    void resetAnimation(sf::Event& e);
 
     /** \brief Set an animation loop.
      *

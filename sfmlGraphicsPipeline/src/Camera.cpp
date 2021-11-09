@@ -5,6 +5,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <glm/gtc/type_ptr.hpp>
+#include <GL/glew.h>
+#include "./../include/gl_helper.hpp"
+
 using namespace std;
 
 Camera::Camera()
@@ -26,11 +30,19 @@ void Camera::animate(float time)
     float camX =   sin(time) * radius ;
     float camZ =   max (2.0f , sin(time) * radius );
 
-    if( time > 83 )
+    if( time > 107.5 )
+    {
+        glcheck(glClearColor(0.0f,0.0f,0.0f,1.0f));
+        setViewMatrix( glm::lookAt(   glm::vec3( camX + 0, camY - 200, 30 ), 
+                                                        glm::vec3(0, -200, 0), 
+                                                        glm::vec3( 0, 1, 0 ) ) );
+    }
+    else
+    if( time > 84 )
     {
 
-        setViewMatrix( glm::lookAt(   glm::vec3( camX + 390, camY -35, 30 - camZ), 
-                                                        glm::vec3(390, -35, 0), 
+        setViewMatrix( glm::lookAt(   glm::vec3( camX + 0, camY - 100, 30 ), 
+                                                        glm::vec3(0, -100, 0), 
                                                         glm::vec3( 0, 1, 0 ) ) );
     }
     else if( time > 44 )
@@ -47,7 +59,6 @@ void Camera::animate(float time)
     }
     else if (time > 0)
     {
-        
         setViewMatrix( glm::lookAt(  glm::vec3( camX, camY, 20 ), 
                                                         glm::vec3( 0, 0, 0), 
                                                         glm::vec3( 0, 1, 0 ) ) );

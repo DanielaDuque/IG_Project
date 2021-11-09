@@ -12,6 +12,10 @@ static const Viewer::Duration g_modeInformationTextTimeout = std::chrono::second
 
 static const std::string screenshot_basename = "screenshot";
 
+static void  setBackground(){
+    glcheck(glClearColor(0.18f,0.83f,0.78f,1.0f));
+}
+
 static void initializeGL()
 {
     //Initialize GLEW
@@ -22,7 +26,7 @@ static void initializeGL()
     LOG( info, "[GLEW] using version " << glewGetString( GLEW_VERSION ) );
 
     //Initialize OpenGL context
-    glcheck(glClearColor(0.18f,0.83f,0.78f,1.0f));
+    setBackground();
     glcheck(glEnable(GL_DEPTH_TEST));
     glcheck(glDepthFunc(GL_LESS));
     glcheck(glEnable(GL_VERTEX_PROGRAM_POINT_SIZE));
@@ -162,6 +166,7 @@ void Viewer::setAnimationLoop(bool animationLoop, float loopDuration)
 {
     m_animationLoop = animationLoop;
     m_loopDuration = loopDuration;
+    
 }
 
 void Viewer::setDirectionalLight(const DirectionalLightPtr& directionalLight)
@@ -190,10 +195,14 @@ void Viewer::stopAnimation()
     m_animationIsStarted=false;
 }
 
-void Viewer::resetAnimation()
+void Viewer::resetAnimation( sf::Event& e  )
 {
+    setBackground();
     m_lastSimulationTimePoint = clock::now();
     m_simulationTime = 0;
+    for(RenderablePtr r : m_renderables)
+    r->keyPressedEvent( e );
+    
 }
 
 void Viewer::addRenderable(RenderablePtr r)
@@ -206,6 +215,24 @@ void Viewer::keyPressedEvent(sf::Event& e)
 {
     switch (e.key.code)
     {
+    case sf::Keyboard::P:
+        if( m_animationIsStarted )
+        {
+            m_simulationTime += Duration( clock::now() - m_lastSimulationTimePoint).count() + 2;
+            m_lastSimulationTimePoint = clock::now() ;
+        }
+        if( m_animationLoop && m_simulationTime >= m_loopDuration )
+            m_simulationTime = std::fmod( m_simulationTime, m_loopDuration );
+        break;
+    case sf::Keyboard::O:
+        if( m_animationIsStarted &&  m_simulationTime > 2)
+        {
+            m_simulationTime += Duration( clock::now() - m_lastSimulationTimePoint).count() - 2;
+            m_lastSimulationTimePoint = clock::now();
+        }
+        if( m_animationLoop && m_simulationTime >= m_loopDuration )
+            m_simulationTime = std::fmod( m_simulationTime, m_loopDuration );
+        break;
     case sf::Keyboard::C:
         changeCameraMode();
         break;
@@ -224,9 +251,7 @@ void Viewer::keyPressedEvent(sf::Event& e)
         else startAnimation();
         break;
     case sf::Keyboard::F5:
-        resetAnimation();
-        for(RenderablePtr r : m_renderables)
-            r->keyPressedEvent(e);
+        resetAnimation(e);
         break;
     case sf::Keyboard::W:
         if( e.key.control )
@@ -347,7 +372,6 @@ void Viewer::mouseMoveEvent(sf::Event& e)
     {
         m_camera.update( deltaMousePosition.x, -deltaMousePosition.y );
     }
-
     //Set last mouse position.
     m_lastMousePosition = m_currentMousePosition;
 
