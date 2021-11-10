@@ -151,9 +151,11 @@ void Viewer::draw()
         ss << "FPS: " << std::setprecision( 2 ) << std::fixed << m_fpsCounter.getFPS();
         //m_tengine.render( ss.str(), glm::vec2(m_window.getSize().x - 200, m_window.getSize().y - 30), glm::vec3(0.1,0.1,0.1) );
     }
-    if( m_helpDisplayed )
-        m_tengine.render( g_help_message, glm::vec2(100, 650), glm::vec3{.0, .1, .2});
     */
+    if( m_helpDisplayed )
+        //m_tengine.render( g_help_message, glm::vec2(100, 650), glm::vec3{.0, .1, .2});
+        std::cout<<g_help_message << std::endl;
+    
 
 }
 
