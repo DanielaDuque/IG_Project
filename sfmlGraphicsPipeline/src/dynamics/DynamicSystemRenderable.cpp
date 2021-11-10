@@ -9,6 +9,8 @@
 #include "./../../include/dynamics/DynamicSystemRenderable.hpp"
 #include "./../../include/Viewer.hpp"
 
+#include <iostream> 
+
 DynamicSystemRenderable::~DynamicSystemRenderable()
 {}
 
@@ -23,11 +25,19 @@ void DynamicSystemRenderable::do_draw()
 
 void DynamicSystemRenderable::do_animate(float time )
 {
+    //std::cout << m_lastUpdateTime << " "<<time<<std::endl;
     if( time - m_lastUpdateTime >= m_system->getDt() )
     {
         //Dynamic system step
         m_system->computeSimulationStep();
         m_lastUpdateTime = time;
+    }
+    if(time > 0 && time <0.1 ){
+        for( const ParticlePtr& p : m_system->getParticles() )
+        {
+            p->restart();
+        }
+        m_lastUpdateTime = 0;
     }
 
 }
@@ -61,6 +71,19 @@ void DynamicSystemRenderable::do_keyPressedEvent(sf::Event &e)
             p->restart();
         }
         m_lastUpdateTime = 0;
+    }
+     else if( e.key.code == sf::Keyboard::P){
+        float Dt_last = m_system->getDt() ;
+        m_system->setDt(2);
+        m_system->computeSimulationStep();
+        m_system->setDt(Dt_last);      
+    }
+    else if( e.key.code == sf::Keyboard::O){
+        m_lastUpdateTime -=2;
+        float Dt_last = m_system->getDt() ;
+        m_system->setDt(-2);
+        m_system->computeSimulationStep();
+        m_system->setDt(Dt_last);
     }
     else //Propagate events to the children
     {

@@ -32,7 +32,7 @@ void Camera::animate(float time)
 
     if( time > 107.5 )
     {
-        glcheck(glClearColor(0.0f,0.0f,0.0f,1.0f));
+        //glcheck(glClearColor(0.0f,0.0f,0.0f,1.0f));
         setViewMatrix( glm::lookAt(   glm::vec3( camX + 0, camY - 200, 30 ), 
                                                         glm::vec3(0, -200, 0), 
                                                         glm::vec3( 0, 1, 0 ) ) );

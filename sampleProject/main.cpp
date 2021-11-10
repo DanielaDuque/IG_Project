@@ -680,6 +680,7 @@ int main()
 	Viewer viewer(1280,720);
 	initialize_scene(viewer);
     viewer.startAnimation();
+    viewer.setAnimationLoop(true, 107.5);
 
 	while( viewer.isRunning() )
 	{

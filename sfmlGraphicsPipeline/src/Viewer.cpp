@@ -241,15 +241,20 @@ void Viewer::keyPressedEvent(sf::Event& e)
         }
         if( m_animationLoop && m_simulationTime >= m_loopDuration )
             m_simulationTime = std::fmod( m_simulationTime, m_loopDuration );
+        for(RenderablePtr r : m_renderables)
+            r->keyPressedEvent( e );
         break;
     case sf::Keyboard::O:
         if( m_animationIsStarted &&  m_simulationTime > 2)
         {
             m_simulationTime += Duration( clock::now() - m_lastSimulationTimePoint).count() - 2;
             m_lastSimulationTimePoint = clock::now();
+            for(RenderablePtr r : m_renderables)
+                r->keyPressedEvent( e );
         }
         if( m_animationLoop && m_simulationTime >= m_loopDuration )
             m_simulationTime = std::fmod( m_simulationTime, m_loopDuration );
+
         break;
     case sf::Keyboard::C:
         changeCameraMode();
