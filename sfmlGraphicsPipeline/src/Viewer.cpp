@@ -13,7 +13,7 @@
 
 static const Viewer::Duration g_modeInformationTextTimeout = std::chrono::seconds( 3 );
 
-static const std::string screenshot_basename = "screenshot";
+static const std::string screenshot_basename = "./../screenShots/screenshot";
 /*
 using namespace irrklang;
 
