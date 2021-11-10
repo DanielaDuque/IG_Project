@@ -45,13 +45,13 @@ void Camera::animate(float time)
                                                         glm::vec3(0, -100, 0), 
                                                         glm::vec3( 0, 1, 0 ) ) );
     }
-    else if( time > 44 )
+    else if( time > 49 )
     {
         setViewMatrix( glm::lookAt(   glm::vec3( camX + 190, camY -35, 30 - camZ), 
                                                         glm::vec3(190, -35, 0), 
                                                         glm::vec3( 0, 1, 0 ) ) );
     }
-    else if (time > 19.5  )
+    else if (time > 19  )
     {
         setViewMatrix( glm::lookAt(   glm::vec3( camX -180, camY -35, 20 - camZ), 
                                                         glm::vec3(-180, -35, 0), 

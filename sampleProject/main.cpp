@@ -171,11 +171,63 @@ LightedMeshRenderablePtr* createSubmarine(Viewer& viewer, ShaderProgramPtr flatS
     
 }
 
-void movingSeahorse(float initialTime, 
+LightedMeshRenderablePtr createFist(Viewer& viewer, ShaderProgramPtr flatShader){
+    
+    LightedMeshRenderablePtr fish = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/Sail_fish.obj");
+    
+/*     for (int i = 0; i < 4; i++)
+    {
+        viewer.addRenderable(fish[i]);
+    } */
+
+    viewer.addRenderable(fish);
+    // Poner aqui solo el cuerpo, no el resto de las partes
+    fish->addParentTransformKeyframe(GeometricTransformation( glm::vec3(-300,-300,-30),  glm::angleAxis(3.14f / 2, glm::vec3(0.0,1.0,0)), 
+                                                            glm::vec3(3,3,3)),0); 
+     
+    //return fish[0];
+    return fish;
+}
+
+void movingFist(float initialTime, float intitialTimePos,
                     Viewer& viewer, ShaderProgramPtr flatShader, 
-                    glm::vec3 initial_pos, float duration
-                    ){
-/*
+                    glm::vec3 initial_pos, float duration,
+                    LightedMeshRenderablePtr seaHorser){
+
+
+/*     glm::mat4 LocalTransform = glm::mat4(1);
+    LocalTransform = glm::translate(LocalTransform, initial_pos);
+    seahorse->setLocalTransform(LocalTransform); */
+
+    seaHorser->addParentTransformKeyframe(GeometricTransformation( initial_pos,  glm::angleAxis(3.14f / 2, glm::vec3(0.0,1.0,0)), 
+                                                            glm::vec3(2,2,2)),initialTime); 
+
+        // Moving of submarine
+    int x_pos = 35;
+    int y_pos = -20;
+    glm::vec3 pos = initial_pos;
+
+
+    for (float i = initialTime; i < duration + initialTime; i++)
+    {
+        pos = initial_pos + glm::vec3(x_pos, y_pos, 0);
+        if((int)i%2==0){
+            seaHorser->addParentTransformKeyframe(GeometricTransformation( pos,  glm::angleAxis(3.14f / 2, glm::vec3(0.0,1.0,0)), 
+                                                            glm::vec3(3,3,3)),i); 
+            y_pos +=4;                                                       
+        }else{
+            seaHorser->addParentTransformKeyframe(GeometricTransformation( pos, glm::angleAxis(3.14f / 2, glm::vec3(0.0,1.0,0)), 
+                                                            glm::vec3(3,3,3)),i);
+            y_pos -=3.7;
+        }
+        x_pos -=4;
+    }
+ 
+ }
+
+
+LightedMeshRenderablePtr createSeahorse(Viewer& viewer, ShaderProgramPtr flatShader){
+    /*
     MaterialPtr* colors = new MaterialPtr[10];
     
     colors[0]  = Material::Silver();
@@ -247,14 +299,31 @@ void movingSeahorse(float initialTime,
     HierarchicalRenderable :: addChild(seahorseGroup[0], seahorseGroup[1]);
     HierarchicalRenderable :: addChild(seahorseGroup[0], seahorseGroup[2]);
     HierarchicalRenderable :: addChild(seahorseGroup[0], seahorseGroup[3]);
+
+
+    for (int i = 0; i < 4; i++)
+    {
+        viewer.addRenderable(seahorseGroup[i]);
+    }
+    seahorseGroup[0]->addParentTransformKeyframe(GeometricTransformation( glm::vec3(-300,-300,-30),  glm::quat{1,0,0,0}, 
+                                                            glm::vec3(2,2,2)),0); 
     
+    return seahorseGroup[0];
+    
+}
+
+void movingSeahorse(float initialTime, float intitialTimePos,
+                    Viewer& viewer, ShaderProgramPtr flatShader, 
+                    glm::vec3 initial_pos, float duration,
+                    LightedMeshRenderablePtr seaHorser){
+
 
 /*     glm::mat4 LocalTransform = glm::mat4(1);
     LocalTransform = glm::translate(LocalTransform, initial_pos);
     seahorse->setLocalTransform(LocalTransform); */
 
-    seahorseGroup[0]->addParentTransformKeyframe(GeometricTransformation( initial_pos,  glm::quat{1,0,0,0}, 
-                                                            glm::vec3(2,2,2)),0); 
+    seaHorser->addParentTransformKeyframe(GeometricTransformation( initial_pos,  glm::quat{1,0,0,0}, 
+                                                            glm::vec3(2,2,2)),initialTime); 
 
         // Moving of submarine
     int x_pos = -25;
@@ -266,18 +335,17 @@ void movingSeahorse(float initialTime,
     {
         pos = initial_pos + glm::vec3(x_pos, y_pos, 0);
         if((int)i%2==0){
-            seahorseGroup[0]->addParentTransformKeyframe(GeometricTransformation( pos,  glm::quat{1,0,0,0}, 
+            seaHorser->addParentTransformKeyframe(GeometricTransformation( pos,  glm::quat{1,0,0,0}, 
                                                             glm::vec3(3,3,3)),i); 
             y_pos +=4;                                                       
         }else{
-            seahorseGroup[0]->addParentTransformKeyframe(GeometricTransformation( pos, glm::quat{1,0,0,0}, 
+            seaHorser->addParentTransformKeyframe(GeometricTransformation( pos, glm::quat{1,0,0,0}, 
                                                             glm::vec3(3,3,3)),i);
             y_pos -=3.7;
         }
-        x_pos +=2;
+        x_pos +=4;
     }
-	// Add the renderable to the Viewer
-	viewer.addRenderable ( seahorseGroup[0] );        
+ 
  }
 
  void movingSubmarine(LightedMeshRenderablePtr submarine, float initialTime, glm::vec3 initialPos, float duration){
@@ -296,7 +364,7 @@ void movingSeahorse(float initialTime,
                                                             glm::vec3(1,1,1)),i+ initialTime);
             y_pos -=3;
         }
-        x_pos +=3;
+        x_pos +=3.5;
     }
 
  }
@@ -364,15 +432,15 @@ void movingVisor(LightedMeshRenderablePtr visor, float initialTime, float durati
 // -------------------------------- Scenes -------------------------------------------------------------
 
 void Scene1 (Viewer& viewer, LightedMeshRenderablePtr submarine, LightedMeshRenderablePtr aletas,
-            ShaderProgramPtr flatShader ){
+            ShaderProgramPtr flatShader, float duration ){
 
     
 
     // Moving of submarine
-    movingSubmarine( submarine, 0, glm::vec3(0,0,-10),21);
+    movingSubmarine( submarine, 0, glm::vec3(0,0,-10),duration);
 
     // Moving Aletas    
-    movingAletas (aletas, 0,21);
+    movingAletas (aletas, 0,duration);
 
     // Particle
     DynamicSystemPtr system = std::make_shared<DynamicSystem>();
@@ -455,23 +523,73 @@ void Scene1 (Viewer& viewer, LightedMeshRenderablePtr submarine, LightedMeshRend
 
 
 void Scene2 (Viewer& viewer, ShaderProgramPtr phongShader, float initialTime, float duration,
-            ShaderProgramPtr flatShader){
+            ShaderProgramPtr flatShader,
+            LightedMeshRenderablePtr* seaHorse){
 
     float time = initialTime;
     int pos_x = -175;
-    for (int i = 1; i < 6; i++)
+    int seah = 0;
+    for (int i = 1; i < 10; i++)
     {
         if ( i %2 == 0){
-            movingSeahorse(time, viewer, phongShader, glm::vec3(pos_x + 8 , -45, -20 ) ,duration);
-            movingSeahorse(time + 0.1, viewer, phongShader, glm::vec3(pos_x + 2, -37, -15 ) ,duration);
-            movingSeahorse(time + 0.1, viewer, phongShader, glm::vec3(pos_x , -30, -10) ,duration);
-            movingSeahorse(time + 0.1, viewer, phongShader, glm::vec3(pos_x , -23, -5 ) ,duration);
+            movingSeahorse(time, 0, viewer, phongShader, glm::vec3(pos_x + 8 , -45, -20 ) ,duration,seaHorse[seah++]);
+            movingSeahorse(time + 0.1, 0, viewer, phongShader, glm::vec3(pos_x + 2, -37, -15 ) ,duration,seaHorse[seah++]);
+            movingSeahorse(time + 0.1, 0, viewer, phongShader, glm::vec3(pos_x , -30, -10) ,duration,seaHorse[seah++]);
+            movingSeahorse(time + 0.1, 0, viewer, phongShader, glm::vec3(pos_x , -23, -5 ) ,duration,seaHorse[seah++]);
         }
         else{
-            movingSeahorse(time, viewer, phongShader, glm::vec3(pos_x  , -45, -5 ) ,duration);
-            movingSeahorse(time + 0.1, viewer, phongShader, glm::vec3(pos_x , -37, -10 ) ,duration);
-            movingSeahorse(time + 0.1, viewer, phongShader, glm::vec3(pos_x + 2, -30, -15) ,duration);
-            movingSeahorse(time + 0.1, viewer, phongShader, glm::vec3(pos_x + 8 , -23, -20 ) ,duration);
+            movingSeahorse(time, 0, viewer, phongShader, glm::vec3(pos_x  , -45, -5 ) ,duration,seaHorse[seah++]);
+            movingSeahorse(time + 0.1, 0, viewer, phongShader, glm::vec3(pos_x , -37, -10 ) ,duration,seaHorse[seah++]);
+            movingSeahorse(time + 0.1, 0, viewer, phongShader, glm::vec3(pos_x + 2, -30, -15) ,duration,seaHorse[seah++]);
+            movingSeahorse(time + 0.1, 0, viewer, phongShader, glm::vec3(pos_x + 8 , -23, -20 ) ,duration,seaHorse[seah++]);
+        }
+
+        pos_x-=5;
+        time+=0.2;
+    }
+
+       // ---------------- Lights ---------------
+
+    glm::mat4 parentTransformation, localTransformation;
+
+    //Define a spot light 1
+    glm::vec3 s_position(-180.0,20.0,20.0), s_spotDirection = glm::normalize(glm::vec3(1.0,-1.0,-1.0));
+    glm::vec3 s_ambient(0.3,0.3,0.3), s_diffuse(0.5,0.5,0.5), s_specular(0.5,0.5,0.5);
+    float s_constant=1.0, s_linear=0.0, s_quadratic=0.0;
+    float s_innerCutOff=std::cos(glm::radians(20.0f)), s_outerCutOff=std::cos(glm::radians(40.0f));
+    SpotLightPtr spotLight = std::make_shared<SpotLight>(s_position, s_spotDirection,
+                                                         s_ambient, s_diffuse, s_specular,
+                                                         s_constant, s_linear, s_quadratic,
+                                                         s_innerCutOff, s_outerCutOff);
+    SpotLightRenderablePtr spotLightRenderable = std::make_shared<SpotLightRenderable>(flatShader, spotLight);
+    localTransformation = glm::scale(glm::mat4(1.0), glm::vec3(0.5,0.5,0.5));
+    spotLightRenderable->setLocalTransform(localTransformation);
+    
+    viewer.addSpotLight(spotLight);
+    viewer.addRenderable(spotLightRenderable);
+    
+}
+
+void Scene5 (Viewer& viewer, ShaderProgramPtr phongShader, float initialTime, float duration,
+            ShaderProgramPtr flatShader,
+            LightedMeshRenderablePtr* seaHorse){
+
+    float time = initialTime;
+    int pos_x = -175;
+    int seah = 0;
+    for (int i = 1; i < 10; i++)
+    {
+        if ( i %2 == 0){
+            movingFist(time, 0, viewer, phongShader, glm::vec3(pos_x + 8 , -45, -20 ) ,duration,seaHorse[seah++]);
+            movingFist(time + 0.1, 0, viewer, phongShader, glm::vec3(pos_x + 2, -37, -15 ) ,duration,seaHorse[seah++]);
+            movingFist(time + 0.1, 0, viewer, phongShader, glm::vec3(pos_x , -30, -10) ,duration,seaHorse[seah++]);
+            movingFist(time + 0.1, 0, viewer, phongShader, glm::vec3(pos_x , -23, -5 ) ,duration,seaHorse[seah++]);
+        }
+        else{
+            movingFist(time, 0, viewer, phongShader, glm::vec3(pos_x  , -45, -5 ) ,duration,seaHorse[seah++]);
+            movingFist(time + 0.1, 0, viewer, phongShader, glm::vec3(pos_x , -37, -10 ) ,duration,seaHorse[seah++]);
+            movingFist(time + 0.1, 0, viewer, phongShader, glm::vec3(pos_x + 2, -30, -15) ,duration,seaHorse[seah++]);
+            movingFist(time + 0.1, 0, viewer, phongShader, glm::vec3(pos_x + 8 , -23, -20 ) ,duration,seaHorse[seah++]);
         }
 
         pos_x-=5;
@@ -505,24 +623,26 @@ void Scene3 (Viewer& viewer, ShaderProgramPtr phongShader,
             LightedMeshRenderablePtr submarine, LightedMeshRenderablePtr aletas,
             LightedMeshRenderablePtr visor,
             float initialTime, float duration,
-            ShaderProgramPtr flatShader){
+            ShaderProgramPtr flatShader,
+            LightedMeshRenderablePtr* seaHorse){
 
         // Sea Horse
         float time = initialTime;
         int pos_x = 175;
-        for (int i = 0; i < 5; i++)
+        int seah = 0;
+        for (int i = 0; i < 9; i++)
         {
             if ( i %2 == 0){
-                movingSeahorse(time, viewer, phongShader, glm::vec3(pos_x + 8 , -45, -20 ) ,duration);
-                movingSeahorse(time + 0.1, viewer, phongShader, glm::vec3(pos_x + 2, -37, -15 ) ,duration);
-                movingSeahorse(time + 0.1, viewer, phongShader, glm::vec3(pos_x , -30, -5) ,duration);
-                movingSeahorse(time + 0.1, viewer, phongShader, glm::vec3(pos_x , -23, 0 ) ,duration);
+                movingSeahorse(time, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 8 , -45, -20 ) ,duration,seaHorse[seah++]);
+                movingSeahorse(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 2, -37, -15 ) ,duration,seaHorse[seah++]);
+                movingSeahorse(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x , -30, -5) ,duration,seaHorse[seah++]);
+                movingSeahorse(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x , -23, 0 ) ,duration,seaHorse[seah++]);
             }
             else{
-                movingSeahorse(time, viewer, phongShader, glm::vec3(pos_x  , -45, -0 ) ,duration);
-                movingSeahorse(time + 0.1, viewer, phongShader, glm::vec3(pos_x , -37, -5 ) ,duration);
-                movingSeahorse(time + 0.1, viewer, phongShader, glm::vec3(pos_x + 2, -30, -15) ,duration);
-                movingSeahorse(time + 0.1, viewer, phongShader, glm::vec3(pos_x + 8 , -23, -20 ) ,duration);
+                movingSeahorse(time, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x  , -45, -0 ) ,duration,seaHorse[seah++]);
+                movingSeahorse(time + 0.1,initialTime-0.01, viewer, phongShader, glm::vec3(pos_x , -37, -5 ) ,duration,seaHorse[seah++]);
+                movingSeahorse(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 2, -30, -15) ,duration,seaHorse[seah++]);
+                movingSeahorse(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 8 , -23, -20 ) ,duration,seaHorse[seah++]);
             }
 
             pos_x-=5;
@@ -667,10 +787,28 @@ void initialize_scene( Viewer& viewer )
         viewer.addRenderable( submarineGroup[i] );
     }
 
+    // Adding seaHorse
+
+    LightedMeshRenderablePtr* seahorseGroup = new LightedMeshRenderablePtr[40];
+    
+    for (int i = 0; i < 40; i++)
+    {
+       seahorseGroup[i] = createSeahorse(viewer,  phongShader);
+    }
+    // Adding fist
+
+    LightedMeshRenderablePtr* fishGroup = new LightedMeshRenderablePtr[40];
+    
+    for (int i = 0; i < 40; i++)
+    {
+       fishGroup[i] = createSeahorse(viewer,  phongShader);
+    }
+
     // ------------- Scenes -----------
-    Scene1( viewer, submarineGroup[0], submarineGroup[1], flatShader);
-    Scene2 ( viewer, phongShader, 19.0, 26.0, flatShader);
-    Scene3 ( viewer,  phongShader, submarineGroup[0],  submarineGroup[1], submarineGroup[2] , 43, 40, flatShader);
+    Scene1( viewer, submarineGroup[0], submarineGroup[1], flatShader,19);
+    Scene2 ( viewer, phongShader, 19.0, 15.0, flatShader, seahorseGroup);
+    Scene5 ( viewer, phongShader, 34.0, 15.0, flatShader, fishGroup);
+    Scene3 ( viewer,  phongShader, submarineGroup[0],  submarineGroup[1], submarineGroup[2] , 49, 40, flatShader, seahorseGroup);
     Scene4 ( viewer,  phongShader, submarineGroup[0],  submarineGroup[1], submarineGroup[2] , 83, 26, flatShader);
     
 }

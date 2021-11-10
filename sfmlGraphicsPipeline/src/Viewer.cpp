@@ -167,7 +167,6 @@ float Viewer::getTime()
         m_lastSimulationTimePoint = clock::now();
     }
     if( m_animationLoop && m_simulationTime >= m_loopDuration )
-        m_simulationTime = std::fmod( m_simulationTime, m_loopDuration );
     return m_simulationTime;
 }
 
