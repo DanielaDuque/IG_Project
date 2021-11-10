@@ -166,7 +166,9 @@ float Viewer::getTime()
         m_simulationTime += Duration( clock::now() - m_lastSimulationTimePoint).count();
         m_lastSimulationTimePoint = clock::now();
     }
-    if( m_animationLoop && m_simulationTime >= m_loopDuration )
+    if( m_animationLoop && m_simulationTime >= m_loopDuration ){
+        m_simulationTime = std::fmod( m_simulationTime, m_loopDuration );
+    }
     return m_simulationTime;
 }
 
@@ -239,12 +241,13 @@ void Viewer::keyPressedEvent(sf::Event& e)
         {
             m_simulationTime += Duration( clock::now() - m_lastSimulationTimePoint).count() + 2;
             m_lastSimulationTimePoint = clock::now() ;
+            for(RenderablePtr r : m_renderables)
+                 r->keyPressedEvent( e );
+        break;
         }
         if( m_animationLoop && m_simulationTime >= m_loopDuration )
             m_simulationTime = std::fmod( m_simulationTime, m_loopDuration );
-        for(RenderablePtr r : m_renderables)
-            r->keyPressedEvent( e );
-        break;
+
     case sf::Keyboard::O:
         if( m_animationIsStarted &&  m_simulationTime > 2)
         {

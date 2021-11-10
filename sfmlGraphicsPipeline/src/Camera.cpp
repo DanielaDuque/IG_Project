@@ -30,19 +30,17 @@ void Camera::animate(float time)
     float camX =   sin(time) * radius ;
     float camZ =   max (2.0f , sin(time) * radius );
 
-    if( time > 107.5 )
-    {
-        //glcheck(glClearColor(0.0f,0.0f,0.0f,1.0f));
-        setViewMatrix( glm::lookAt(   glm::vec3( camX + 0, camY - 200, 30 ), 
-                                                        glm::vec3(0, -200, 0), 
-                                                        glm::vec3( 0, 1, 0 ) ) );
-    }
-    else
-    if( time > 84 )
+    if( time > 89 )
     {
 
         setViewMatrix( glm::lookAt(   glm::vec3( camX + 0, camY - 100, 30 ), 
                                                         glm::vec3(0, -100, 0), 
+                                                        glm::vec3( 0, 1, 0 ) ) );
+    }
+    else if( time > 68 )
+    {
+        setViewMatrix( glm::lookAt(   glm::vec3( camX + 350, camY -135, 30 - camZ), 
+                                                        glm::vec3(350, -135, 0), 
                                                         glm::vec3( 0, 1, 0 ) ) );
     }
     else if( time > 49 )
