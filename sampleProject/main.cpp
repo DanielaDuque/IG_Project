@@ -66,7 +66,7 @@ void createParticle(Viewer& viewer, DynamicSystemPtr& system, DynamicSystemRende
 
         //Initialize a force field that apply to all the particles of the system to simulate gravity
         //Add it to the system as a force field
-        ConstantForceFieldPtr gravityForceField = std::make_shared<ConstantForceField>(system->getParticles(), glm::vec3{0,2,0} );
+        ConstantForceFieldPtr gravityForceField = std::make_shared<ConstantForceField>(system->getParticles(), glm::vec3{0,3,0} );
         system->addForceField( gravityForceField );
 
         //Create a particleRenderable for each particle of the system
@@ -167,29 +167,11 @@ LightedMeshRenderablePtr* createSubmarine(Viewer& viewer, ShaderProgramPtr flatS
 
 
     return subamrineGroup;
-    //movingSubmarine( viewer, submarine);
     
 }
 
 LightedMeshRenderablePtr createFISH(Viewer& viewer, ShaderProgramPtr flatShader){
-    /*
-    MaterialPtr* colors = new MaterialPtr[10];
-    
-    colors[0]  = Material::Silver();
-    colors[1]  = Material::Pearl();
-    colors[2]  = Material::Emerald();
-    colors[3]  = Material::Bronze();
-    colors[4]  = Material::Turquoise();
-    colors[5]  = Material::WhiteRubber();
-    colors[6]  = Material::YellowRubber();
-    colors[7]  = Material::Gold();
-    colors[8]  = Material::Ruby();
-    colors[9]  = Material::Green();
-    colors[10]  = Material::Chrome();
 
-    int x = rand();
-
-*/
     MaterialPtr silver = Material::Silver();                    // Plata
     MaterialPtr pearl = Material::Pearl();                      // Rosado - Blanco
     MaterialPtr emerald = Material::Emerald();                  // Verde Esmeralda 
@@ -220,10 +202,6 @@ LightedMeshRenderablePtr createFISH(Viewer& viewer, ShaderProgramPtr flatShader)
 
     LightedMeshRenderablePtr* fishGroup = new LightedMeshRenderablePtr[2];
 
-
-    //LightedMeshRenderablePtr seahorse = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/seahorse.obj");
-    //seahorse->setMaterial(bronze);
-
     // Cuerpo
     fishGroup[0] = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/sharkie_cuerpo.obj");
     fishGroup[0]->setMaterial(turquoise);
@@ -240,35 +218,16 @@ LightedMeshRenderablePtr createFISH(Viewer& viewer, ShaderProgramPtr flatShader)
     {
         viewer.addRenderable(fishGroup[i]);
     }
- //   fishGroup[0]->addParentTransformKeyframe(GeometricTransformation( glm::vec3(-300,-300,-30),  glm::quat{1,0,0,0}, 
-   //                                                         glm::vec3(2,2,2)),0); 
+
     fishGroup[0]->addParentTransformKeyframe(GeometricTransformation( glm::vec3(-175,-300,-30),  glm::angleAxis(3.14f / 2, glm::vec3(0.0,1.0,0)), 
                                                             glm::vec3(3,3,3)),0); 
     
     return fishGroup[0];
     
 }
-/*
 
-LightedMeshRenderablePtr createFist(Viewer& viewer, ShaderProgramPtr flatShader){
-    
-    LightedMeshRenderablePtr fish = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/sharkie.obj");
-    
-/*     for (int i = 0; i < 4; i++)
-    {
-        viewer.addRenderable(fish[i]);
-    } 
 
-    viewer.addRenderable(fish);
-    // Poner aqui solo el cuerpo, no el resto de las partes
-    fish->addParentTransformKeyframe(GeometricTransformation( glm::vec3(-175,-300,-30),  glm::angleAxis(3.14f / 2, glm::vec3(0.0,1.0,0)), 
-                                                            glm::vec3(3,3,3)),0); 
-     
-    //return fish[0];
-    return fish;
-}
 
-*/
 
 void movingFist(float initialTime, float intitialTimePos,
                     Viewer& viewer, ShaderProgramPtr flatShader, 
@@ -276,9 +235,6 @@ void movingFist(float initialTime, float intitialTimePos,
                     LightedMeshRenderablePtr seaHorser){
 
 
-/*     glm::mat4 LocalTransform = glm::mat4(1);
-    LocalTransform = glm::translate(LocalTransform, initial_pos);
-    seahorse->setLocalTransform(LocalTransform); */
 
     seaHorser->addParentTransformKeyframe(GeometricTransformation( initial_pos,  glm::angleAxis(3.14f / 2, glm::vec3(0.0,1.0,0)), 
                                                             glm::vec3(2,2,2)),initialTime); 
@@ -308,24 +264,7 @@ void movingFist(float initialTime, float intitialTimePos,
 
 
 LightedMeshRenderablePtr createSeahorse(Viewer& viewer, ShaderProgramPtr flatShader){
-    /*
-    MaterialPtr* colors = new MaterialPtr[10];
-    
-    colors[0]  = Material::Silver();
-    colors[1]  = Material::Pearl();
-    colors[2]  = Material::Emerald();
-    colors[3]  = Material::Bronze();
-    colors[4]  = Material::Turquoise();
-    colors[5]  = Material::WhiteRubber();
-    colors[6]  = Material::YellowRubber();
-    colors[7]  = Material::Gold();
-    colors[8]  = Material::Ruby();
-    colors[9]  = Material::Green();
-    colors[10]  = Material::Chrome();
 
-    int x = rand();
-
-*/
     MaterialPtr silver = Material::Silver();                    // Plata
     MaterialPtr pearl = Material::Pearl();                      // Rosado - Blanco
     MaterialPtr emerald = Material::Emerald();                  // Verde Esmeralda 
@@ -657,7 +596,7 @@ void Scene3 (Viewer& viewer, ShaderProgramPtr phongShader,
             LightedMeshRenderablePtr visor,
             float initialTime, float duration,
             ShaderProgramPtr flatShader,
-            LightedMeshRenderablePtr* fish){
+            LightedMeshRenderablePtr* seahorse){
 
         // Sea Horse
         float time = initialTime - 4;
@@ -666,16 +605,16 @@ void Scene3 (Viewer& viewer, ShaderProgramPtr phongShader,
         for (int i = 0; i < 9; i++)
         {
             if ( i %2 == 0){
-                movingFist(time, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 8 , -45, -20 ) ,duration +4,fish[seah++]);
-                movingFist(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 2, -37, -15 ) ,duration+4,fish[seah++]);
-                movingFist(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x , -30, -5) ,duration+4,fish[seah++]);
-                movingFist(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x , -23, 0 ) ,duration+4,fish[seah++]);
+                movingSeahorse(time, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 8 , -45, -20 ) ,duration +4,seahorse[seah++]);
+                movingSeahorse(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 2, -37, -15 ) ,duration+4,seahorse[seah++]);
+                movingSeahorse(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x , -30, -5) ,duration+4,seahorse[seah++]);
+                movingSeahorse(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x , -23, 0 ) ,duration+4,seahorse[seah++]);
             }
             else{
-                movingFist(time, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x  , -45, -0 ) ,duration+4,fish[seah++]);
-                movingFist(time + 0.1,initialTime-0.01, viewer, phongShader, glm::vec3(pos_x , -37, -5 ) ,duration+4,fish[seah++]);
-                movingFist(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 2, -30, -15) ,duration+4,fish[seah++]);
-                movingFist(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 8 , -23, -20 ) ,duration+4,fish[seah++]);
+                movingSeahorse(time, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x  , -45, -0 ) ,duration+4,seahorse[seah++]);
+                movingSeahorse(time + 0.1,initialTime-0.01, viewer, phongShader, glm::vec3(pos_x , -37, -5 ) ,duration+4,seahorse[seah++]);
+                movingSeahorse(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 2, -30, -15) ,duration+4,seahorse[seah++]);
+                movingSeahorse(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 8 , -23, -20 ) ,duration+4,seahorse[seah++]);
             }
 
             pos_x-=5;
