@@ -25,14 +25,14 @@ void DynamicSystemRenderable::do_draw()
 
 void DynamicSystemRenderable::do_animate(float time )
 {
-    //std::cout << m_lastUpdateTime << " "<<time<<std::endl;
+    std::cout << m_lastUpdateTime << " "<<time<<std::endl;
     if( time - m_lastUpdateTime >= m_system->getDt() )
     {
         //Dynamic system step
         m_system->computeSimulationStep();
         m_lastUpdateTime = time;
     }
-    if(time > 0 && time <0.1 ){
+    if(time > 0 && time <0.1 || m_lastUpdateTime > 113-m_system->getDt() ){
       
         for( const ParticlePtr& p : m_system->getParticles() )
         {
@@ -78,7 +78,8 @@ void DynamicSystemRenderable::do_keyPressedEvent(sf::Event &e)
         float Dt_last = m_system->getDt() ;
         m_system->setDt(2);
         m_system->computeSimulationStep();
-        m_system->setDt(Dt_last);      
+        m_system->setDt(Dt_last);  
+        m_lastUpdateTime +=2;    
     }
     else if( e.key.code == sf::Keyboard::O){
         m_lastUpdateTime -=2;

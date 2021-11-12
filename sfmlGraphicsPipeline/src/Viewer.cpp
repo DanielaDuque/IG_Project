@@ -259,8 +259,14 @@ void Viewer::keyPressedEvent(sf::Event& e)
             for(RenderablePtr r : m_renderables)
                 r->keyPressedEvent( e );
         }
+        if( m_animationIsStarted &&  m_simulationTime <= 2)
+        {
+            m_simulationTime = 0;
+            m_lastSimulationTimePoint = clock::now();
+        }
         if( m_animationLoop && m_simulationTime >= m_loopDuration )
             m_simulationTime = std::fmod( m_simulationTime, m_loopDuration );
+    
 
         break;
     case sf::Keyboard::C:
