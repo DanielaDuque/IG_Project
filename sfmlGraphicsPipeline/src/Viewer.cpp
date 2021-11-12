@@ -2,6 +2,13 @@
 #include "./../include/gl_helper.hpp"
 #include "./../include/log.hpp"
 
+
+#include "../include/texturing/TexturedPlaneRenderable.hpp"
+#include "../include/texturing/TexturedCubeRenderable.hpp"
+#include "../include/texturing/MultiTexturedCubeRenderable.hpp"
+#include "../include/texturing/MipMapCubeRenderable.hpp"
+#include "../include/texturing/BillBoardPlaneRenderable.hpp"
+
 #include <glm/gtc/type_ptr.hpp>
 #include <GL/glew.h>
 #include <iostream>
@@ -27,7 +34,7 @@ engine->play2D("musica.mp3", true); // play some mp3 file, looped
 */
 
 static void  setBackground(){
-    glcheck(glClearColor(0.18f,0.83f,0.78f,1.0f));
+    // glcheck(glClearColor(0.18f,0.83f,0.78f,1.0f));
 }
 /*
 irrklang::ISoundEngine* engine = irrklang::createIrrKlangDevice();
@@ -43,7 +50,7 @@ static void initializeGL()
     LOG( info, "[GLEW] using version " << glewGetString( GLEW_VERSION ) );
 
     //Initialize OpenGL context
-    setBackground();
+    //setBackground();
     // setSound();
     glcheck(glEnable(GL_DEPTH_TEST));
     glcheck(glDepthFunc(GL_LESS));
@@ -221,7 +228,7 @@ void Viewer::stopAnimation()
 
 void Viewer::resetAnimation( sf::Event& e  )
 {
-    setBackground();
+    //setBackground();
     m_lastSimulationTimePoint = clock::now();
     m_simulationTime = 0;
     for(RenderablePtr r : m_renderables)

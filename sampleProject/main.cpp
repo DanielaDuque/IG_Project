@@ -406,7 +406,7 @@ void movingSeahorse(float initialTime, float intitialTimePos,
     seaHorser->addParentTransformKeyframe(GeometricTransformation( initial_pos,  glm::quat{1,0,0,0}, 
                                                             glm::vec3(2,2,2)),initialTime); 
 
-        // Moving of submarine
+    // Moving of SeaHorse
     int x_pos = -25;
     int y_pos = -10;
     glm::vec3 pos;
@@ -651,6 +651,141 @@ void Scene2 (Viewer& viewer, ShaderProgramPtr phongShader, float initialTime, fl
     
 }
 
+
+void Scene3 (Viewer& viewer, ShaderProgramPtr phongShader,  
+            LightedMeshRenderablePtr submarine, LightedMeshRenderablePtr aletas,
+            LightedMeshRenderablePtr visor,
+            float initialTime, float duration,
+            ShaderProgramPtr flatShader,
+            LightedMeshRenderablePtr* fish){
+
+        // Sea Horse
+        float time = initialTime - 4;
+        int pos_x = 175;
+        int seah = 0;
+        for (int i = 0; i < 9; i++)
+        {
+            if ( i %2 == 0){
+                movingFist(time, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 8 , -45, -20 ) ,duration +4,fish[seah++]);
+                movingFist(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 2, -37, -15 ) ,duration+4,fish[seah++]);
+                movingFist(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x , -30, -5) ,duration+4,fish[seah++]);
+                movingFist(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x , -23, 0 ) ,duration+4,fish[seah++]);
+            }
+            else{
+                movingFist(time, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x  , -45, -0 ) ,duration+4,fish[seah++]);
+                movingFist(time + 0.1,initialTime-0.01, viewer, phongShader, glm::vec3(pos_x , -37, -5 ) ,duration+4,fish[seah++]);
+                movingFist(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 2, -30, -15) ,duration+4,fish[seah++]);
+                movingFist(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 8 , -23, -20 ) ,duration+4,fish[seah++]);
+            }
+
+            pos_x-=5;
+            time+=0.2;
+    }
+
+/*     for (int i = 0; i < seah; i++)
+    {
+        seaHorse[i]->addParentTransformKeyframe(GeometricTransformation( glm::vec3(400,200,50),  glm::quat{1,0,0,0}, 
+                                                            glm::vec3(2,2,2)),initialTime+duration); 
+        
+    }
+     */
+
+    // Submarine
+        // Moving of submarine
+    submarine->addParentTransformKeyframe(GeometricTransformation( glm::vec3(pos_x + 60 , -35, -10 ), glm::angleAxis(-3.14f / 2, glm::vec3(0.0,1.0,0)), 
+                                                        glm::vec3(1,1,1)),initialTime-10);
+    movingSubmarine( submarine, initialTime, glm::vec3(pos_x +60 , -35, -10 ),duration);
+        // Moving Aletas    
+    movingAletas (aletas, initialTime,duration);
+        //Moving Visor
+    movingVisor(visor,initialTime,duration);
+
+    // ---------------- Lights ---------------
+
+    glm::mat4 parentTransformation, localTransformation;
+
+    //Define a spot light 1
+    glm::vec3 s_position(175.0,30.0,10.0), s_spotDirection = glm::normalize(glm::vec3(-1.0,-1.0,-1.0));
+    glm::vec3 s_ambient(0.3,0.3,0.3), s_diffuse(0.5,0.5,0.5), s_specular(0.5,0.5,0.5);
+    float s_constant=1.0, s_linear=0.0, s_quadratic=0.0;
+    float s_innerCutOff=std::cos(glm::radians(20.0f)), s_outerCutOff=std::cos(glm::radians(40.0f));
+    SpotLightPtr spotLight = std::make_shared<SpotLight>(s_position, s_spotDirection,
+                                                         s_ambient, s_diffuse, s_specular,
+                                                         s_constant, s_linear, s_quadratic,
+                                                         s_innerCutOff, s_outerCutOff);
+    SpotLightRenderablePtr spotLightRenderable = std::make_shared<SpotLightRenderable>(flatShader, spotLight);
+    localTransformation = glm::scale(glm::mat4(1.0), glm::vec3(3.5,3.5,3.5));
+    spotLightRenderable->setLocalTransform(localTransformation);
+
+    HierarchicalRenderable :: addChild(visor, spotLightRenderable);               
+    viewer.addSpotLight(spotLight);
+    viewer.addRenderable(spotLightRenderable);
+        
+}
+
+void Scene4 (Viewer& viewer, ShaderProgramPtr phongShader,  
+            LightedMeshRenderablePtr submarine, LightedMeshRenderablePtr aletas,
+            LightedMeshRenderablePtr visor,
+            float initialTime, float duration,
+            ShaderProgramPtr flatShader  ){
+
+    
+    //newSubamire
+
+    LightedMeshRenderablePtr* submarineGroup = new LightedMeshRenderablePtr[10];
+    submarineGroup = createSubmarine(viewer,  phongShader);
+    for (int i = 0; i < 10; i++)
+    {
+        viewer.addRenderable( submarineGroup[i] );
+    }
+
+    submarineGroup[0]->addParentTransformKeyframe(GeometricTransformation( glm::vec3(-30 , -120, -10 ), glm::angleAxis(-3.14f, glm::vec3(0.0,1.0,0)), 
+                                                        glm::vec3(1,1,1)),initialTime-0.1);
+    movingSubmarineFront( submarineGroup[0], initialTime, glm::vec3(-30 , -120, -10 ),duration, 2.8, 5* 3.14/4);
+        // Moving Aletas    
+    movingAletas (submarineGroup[1], initialTime,duration);
+        //Moving Visor
+    movingVisor(submarineGroup[2],initialTime,duration);
+    
+    // Submarine
+        // Moving of submarine
+    submarine->addParentTransformKeyframe(GeometricTransformation( glm::vec3(30 , -120, -10 ), glm::angleAxis(-3.14f, glm::vec3(0.0,1.0,0)), 
+                                                        glm::vec3(1,1,1)),initialTime-0.1);
+    movingSubmarineFront( submarine, initialTime, glm::vec3(30 , -120, -10 ),duration, -2.8, 3 * 3.14/4);
+        // Moving Aletas    
+    movingAletas (aletas, initialTime,duration);
+        //Moving Visor
+    movingVisor(visor,initialTime,duration);
+
+    // ---------------- Lights ---------------
+
+    glm::mat4 parentTransformation, localTransformation;
+
+    glm::vec3 s_ambient(0.4,0.4,0.4), s_diffuse(0.5,0.5,0.5), s_specular(0.5,0.5,0.5);
+    float s_constant=1.0, s_linear=0.0, s_quadratic=0.0;
+    float s_innerCutOff=std::cos(glm::radians(20.0f)), s_outerCutOff=std::cos(glm::radians(40.0f));
+    //Define a spot light 1
+    glm::vec3 s_position(-10.0,-60.0,20.0), s_spotDirection = glm::normalize(glm::vec3(1.0,-1.0,-1.0));
+
+
+    SpotLightPtr spotLight = std::make_shared<SpotLight>(s_position, s_spotDirection,
+                                                         s_ambient, s_diffuse, s_specular,
+                                                         s_constant, s_linear, s_quadratic,
+                                                         s_innerCutOff, s_outerCutOff);
+    SpotLightRenderablePtr spotLightRenderable = std::make_shared<SpotLightRenderable>(flatShader, spotLight);
+    localTransformation = glm::scale(glm::mat4(1.0), glm::vec3(3.5,3.5,3.5));
+    spotLightRenderable->setLocalTransform(localTransformation);
+
+    HierarchicalRenderable :: addChild(visor, spotLightRenderable);               
+    viewer.addSpotLight(spotLight);
+    viewer.addRenderable(spotLightRenderable);
+
+    HierarchicalRenderable :: addChild(visor, spotLightRenderable);               
+    viewer.addSpotLight(spotLight);
+    viewer.addRenderable(spotLightRenderable);
+        
+}
+
 void Scene5 (Viewer& viewer, ShaderProgramPtr phongShader, float initialTime, float duration,
             ShaderProgramPtr flatShader,
             LightedMeshRenderablePtr* fish){
@@ -704,78 +839,6 @@ void Scene5 (Viewer& viewer, ShaderProgramPtr phongShader, float initialTime, fl
     viewer.addSpotLight(spotLight);
     viewer.addRenderable(spotLightRenderable);
     
-}
-
-
-void Scene3 (Viewer& viewer, ShaderProgramPtr phongShader,  
-            LightedMeshRenderablePtr submarine, LightedMeshRenderablePtr aletas,
-            LightedMeshRenderablePtr visor,
-            float initialTime, float duration,
-            ShaderProgramPtr flatShader,
-            LightedMeshRenderablePtr* seaHorse){
-
-        // Sea Horse
-        float time = initialTime - 4;
-        int pos_x = 175;
-        int seah = 0;
-        for (int i = 0; i < 9; i++)
-        {
-            if ( i %2 == 0){
-                movingSeahorse(time, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 8 , -45, -20 ) ,duration +4,seaHorse[seah++]);
-                movingSeahorse(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 2, -37, -15 ) ,duration+4,seaHorse[seah++]);
-                movingSeahorse(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x , -30, -5) ,duration+4,seaHorse[seah++]);
-                movingSeahorse(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x , -23, 0 ) ,duration+4,seaHorse[seah++]);
-            }
-            else{
-                movingSeahorse(time, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x  , -45, -0 ) ,duration+4,seaHorse[seah++]);
-                movingSeahorse(time + 0.1,initialTime-0.01, viewer, phongShader, glm::vec3(pos_x , -37, -5 ) ,duration+4,seaHorse[seah++]);
-                movingSeahorse(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 2, -30, -15) ,duration+4,seaHorse[seah++]);
-                movingSeahorse(time + 0.1, initialTime-0.01, viewer, phongShader, glm::vec3(pos_x + 8 , -23, -20 ) ,duration+4,seaHorse[seah++]);
-            }
-
-            pos_x-=5;
-            time+=0.2;
-    }
-
-/*     for (int i = 0; i < seah; i++)
-    {
-        seaHorse[i]->addParentTransformKeyframe(GeometricTransformation( glm::vec3(400,200,50),  glm::quat{1,0,0,0}, 
-                                                            glm::vec3(2,2,2)),initialTime+duration); 
-        
-    }
-     */
-
-    // Submarine
-        // Moving of submarine
-    submarine->addParentTransformKeyframe(GeometricTransformation( glm::vec3(pos_x + 60 , -35, -10 ), glm::angleAxis(-3.14f / 2, glm::vec3(0.0,1.0,0)), 
-                                                        glm::vec3(1,1,1)),initialTime-10);
-    movingSubmarine( submarine, initialTime, glm::vec3(pos_x +60 , -35, -10 ),duration);
-        // Moving Aletas    
-    movingAletas (aletas, initialTime,duration);
-        //Moving Visor
-    movingVisor(visor,initialTime,duration);
-
-    // ---------------- Lights ---------------
-
-    glm::mat4 parentTransformation, localTransformation;
-
-    //Define a spot light 1
-    glm::vec3 s_position(175.0,30.0,10.0), s_spotDirection = glm::normalize(glm::vec3(-1.0,-1.0,-1.0));
-    glm::vec3 s_ambient(0.3,0.3,0.3), s_diffuse(0.5,0.5,0.5), s_specular(0.5,0.5,0.5);
-    float s_constant=1.0, s_linear=0.0, s_quadratic=0.0;
-    float s_innerCutOff=std::cos(glm::radians(20.0f)), s_outerCutOff=std::cos(glm::radians(40.0f));
-    SpotLightPtr spotLight = std::make_shared<SpotLight>(s_position, s_spotDirection,
-                                                         s_ambient, s_diffuse, s_specular,
-                                                         s_constant, s_linear, s_quadratic,
-                                                         s_innerCutOff, s_outerCutOff);
-    SpotLightRenderablePtr spotLightRenderable = std::make_shared<SpotLightRenderable>(flatShader, spotLight);
-    localTransformation = glm::scale(glm::mat4(1.0), glm::vec3(3.5,3.5,3.5));
-    spotLightRenderable->setLocalTransform(localTransformation);
-
-    HierarchicalRenderable :: addChild(visor, spotLightRenderable);               
-    viewer.addSpotLight(spotLight);
-    viewer.addRenderable(spotLightRenderable);
-        
 }
 
 void Scene6 (Viewer& viewer, ShaderProgramPtr phongShader,  
@@ -847,72 +910,35 @@ void Scene6 (Viewer& viewer, ShaderProgramPtr phongShader,
 }
 
 
-void Scene4 (Viewer& viewer, ShaderProgramPtr phongShader,  
-            LightedMeshRenderablePtr submarine, LightedMeshRenderablePtr aletas,
-            LightedMeshRenderablePtr visor,
-            float initialTime, float duration,
-            ShaderProgramPtr flatShader  ){
-
-    
-    //newSubamire
-
-    LightedMeshRenderablePtr* submarineGroup = new LightedMeshRenderablePtr[10];
-    submarineGroup = createSubmarine(viewer,  phongShader);
-    for (int i = 0; i < 10; i++)
-    {
-        viewer.addRenderable( submarineGroup[i] );
-    }
-
-    submarineGroup[0]->addParentTransformKeyframe(GeometricTransformation( glm::vec3(-30 , -120, -10 ), glm::angleAxis(-3.14f, glm::vec3(0.0,1.0,0)), 
-                                                        glm::vec3(1,1,1)),initialTime-0.1);
-    movingSubmarineFront( submarineGroup[0], initialTime, glm::vec3(-30 , -120, -10 ),duration, 2.8, 5* 3.14/4);
-        // Moving Aletas    
-    movingAletas (submarineGroup[1], initialTime,duration);
-        //Moving Visor
-    movingVisor(submarineGroup[2],initialTime,duration);
-    
-    // Submarine
-        // Moving of submarine
-    submarine->addParentTransformKeyframe(GeometricTransformation( glm::vec3(30 , -120, -10 ), glm::angleAxis(-3.14f, glm::vec3(0.0,1.0,0)), 
-                                                        glm::vec3(1,1,1)),initialTime-0.1);
-    movingSubmarineFront( submarine, initialTime, glm::vec3(30 , -120, -10 ),duration, -2.8, 3 * 3.14/4);
-        // Moving Aletas    
-    movingAletas (aletas, initialTime,duration);
-        //Moving Visor
-    movingVisor(visor,initialTime,duration);
-
-    // ---------------- Lights ---------------
-
-    glm::mat4 parentTransformation, localTransformation;
-
-    glm::vec3 s_ambient(0.4,0.4,0.4), s_diffuse(0.5,0.5,0.5), s_specular(0.5,0.5,0.5);
-    float s_constant=1.0, s_linear=0.0, s_quadratic=0.0;
-    float s_innerCutOff=std::cos(glm::radians(20.0f)), s_outerCutOff=std::cos(glm::radians(40.0f));
-    //Define a spot light 1
-    glm::vec3 s_position(-10.0,-60.0,20.0), s_spotDirection = glm::normalize(glm::vec3(1.0,-1.0,-1.0));
-
-
-    SpotLightPtr spotLight = std::make_shared<SpotLight>(s_position, s_spotDirection,
-                                                         s_ambient, s_diffuse, s_specular,
-                                                         s_constant, s_linear, s_quadratic,
-                                                         s_innerCutOff, s_outerCutOff);
-    SpotLightRenderablePtr spotLightRenderable = std::make_shared<SpotLightRenderable>(flatShader, spotLight);
-    localTransformation = glm::scale(glm::mat4(1.0), glm::vec3(3.5,3.5,3.5));
-    spotLightRenderable->setLocalTransform(localTransformation);
-
-    HierarchicalRenderable :: addChild(visor, spotLightRenderable);               
-    viewer.addSpotLight(spotLight);
-    viewer.addRenderable(spotLightRenderable);
-
-    HierarchicalRenderable :: addChild(visor, spotLightRenderable);               
-    viewer.addSpotLight(spotLight);
-    viewer.addRenderable(spotLightRenderable);
-        
-}
 
 
 void initialize_scene( Viewer& viewer )
 {
+
+    //Textured shader
+    //    ShaderProgramPtr texShader = std::make_shared<ShaderProgram>("../shaders/textureVertex.glsl","../shaders/textureFragment.glsl");
+    ShaderProgramPtr texShader = std::make_shared<ShaderProgram>(   "../../sfmlGraphicsPipeline/shaders/simpleTextureVertex.glsl",
+                                                                    "../../sfmlGraphicsPipeline/shaders/simpleTextureFragment.glsl");
+    viewer.addShaderProgram( texShader );
+
+    //Temporary variables
+    glm::mat4 parentTransformation(1.0);
+    std::string filename;
+    std::string filename2;
+
+    //Textured plane sfmlGraphicsPipeline/meshes/fondo1
+    filename = "./../../sfmlGraphicsPipeline/meshes/fondo2.jpg";
+    filename2 = "./../../sfmlGraphicsPipeline/textures/billboardredflowers.png";
+// sfmlGraphicsPipeline/src/texturing/TexturedPlaneRenderable.cpp
+    TexturedPlaneRenderablePtr texPlane = std::make_shared<TexturedPlaneRenderable>(texShader, filename);
+    //TexturedTriangleRenderablePtr texPlane = std::make_shared<TexturedTriangleRenderable>(texShader, filename);
+    
+    parentTransformation = glm::translate(parentTransformation, glm::vec3(50.0,0.0,-25.0));
+    parentTransformation = glm::scale(parentTransformation, glm::vec3(1000.0,700.0,700.0));
+    // parentTransformation = glm::translate(glm::mat4(1.0), glm::vec3(-1.0,-1.0,-10.0));
+    texPlane->setParentTransform(parentTransformation); 
+    viewer.addRenderable( texPlane );
+    // viewer.addRenderable(texPlane);
       
 
     ShaderProgramPtr flatShader = std::make_shared<ShaderProgram>(  "../../sfmlGraphicsPipeline/shaders/flatVertex.glsl",
