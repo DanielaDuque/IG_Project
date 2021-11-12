@@ -152,9 +152,9 @@ void Viewer::draw()
         //m_tengine.render( ss.str(), glm::vec2(m_window.getSize().x - 200, m_window.getSize().y - 30), glm::vec3(0.1,0.1,0.1) );
     }
     */
-    if( m_helpDisplayed )
+    //if( m_helpDisplayed )
         //m_tengine.render( g_help_message, glm::vec2(100, 650), glm::vec3{.0, .1, .2});
-        std::cout<<g_help_message << std::endl;
+       // std::cout<<g_help_message << std::endl;
     
 
 }
@@ -264,7 +264,8 @@ void Viewer::keyPressedEvent(sf::Event& e)
         changeCameraMode();
         break;
     case sf::Keyboard::F1:
-        m_helpDisplayed = !m_helpDisplayed;
+        //m_helpDisplayed = !m_helpDisplayed;
+        std::cout<<g_help_message << std::endl;
         break;
     case sf::Keyboard::F2:
         takeScreenshot();
