@@ -25,7 +25,7 @@ void DynamicSystemRenderable::do_draw()
 
 void DynamicSystemRenderable::do_animate(float time )
 {
-    std::cout << m_lastUpdateTime << " "<<time<<std::endl;
+    //std::cout << m_lastUpdateTime << " "<<time<<std::endl;
     if( time - m_lastUpdateTime >= m_system->getDt() )
     {
         //Dynamic system step
