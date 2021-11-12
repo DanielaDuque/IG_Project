@@ -171,14 +171,93 @@ LightedMeshRenderablePtr* createSubmarine(Viewer& viewer, ShaderProgramPtr flatS
     
 }
 
+LightedMeshRenderablePtr createFISH(Viewer& viewer, ShaderProgramPtr flatShader){
+    /*
+    MaterialPtr* colors = new MaterialPtr[10];
+    
+    colors[0]  = Material::Silver();
+    colors[1]  = Material::Pearl();
+    colors[2]  = Material::Emerald();
+    colors[3]  = Material::Bronze();
+    colors[4]  = Material::Turquoise();
+    colors[5]  = Material::WhiteRubber();
+    colors[6]  = Material::YellowRubber();
+    colors[7]  = Material::Gold();
+    colors[8]  = Material::Ruby();
+    colors[9]  = Material::Green();
+    colors[10]  = Material::Chrome();
+
+    int x = rand();
+
+*/
+    MaterialPtr silver = Material::Silver();                    // Plata
+    MaterialPtr pearl = Material::Pearl();                      // Rosado - Blanco
+    MaterialPtr emerald = Material::Emerald();                  // Verde Esmeralda 
+    MaterialPtr bronze = Material::Bronze();                    // Bronce claro
+    MaterialPtr turquoise = Material::Turquoise();              // Azul metalizado 
+    MaterialPtr gold = Material::Gold();                        // Gold
+    MaterialPtr ruby = Material::Ruby();                        // Rojo
+    MaterialPtr brass = Material::Brass();                      // Amarillo
+    MaterialPtr copper = Material::Copper();                    // Naranja
+    MaterialPtr chrome = Material::Chrome();                    // Gris claro
+    MaterialPtr jade = Material::Jade();                        // Verde Claro
+    MaterialPtr obsidian = Material::Obsidian();                // Negro - Gris
+
+    MaterialPtr whiteRubber = Material::WhiteRubber();          // Negro Metalizado
+    MaterialPtr yellowRubber = Material::YellowRubber();        // Amarillo metalizado
+    MaterialPtr blackRubber = Material::BlackRubber();          // Negro profundo Metalizado
+    MaterialPtr cyanRubber = Material::CyanRubber();            // Azul metalizado
+    MaterialPtr greenRubber = Material::GreenRubber();          // verde metalizado
+    MaterialPtr redRubber = Material::RedRubber();              // Rojo Metalizado
+
+    MaterialPtr green = Material::Green();                      // Verde Oscuro (feo)
+    MaterialPtr red = Material::Red();                          // Rojo Oscuro
+    MaterialPtr cyan = Material::Cyan();                        // Verde - Aguamarina
+    MaterialPtr yellow = Material::Yellow();                    // Amarillo oscuro (feo)
+    MaterialPtr black = Material::Black();                      // Negro
+    
+
+
+    LightedMeshRenderablePtr* fishGroup = new LightedMeshRenderablePtr[2];
+
+
+    //LightedMeshRenderablePtr seahorse = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/seahorse.obj");
+    //seahorse->setMaterial(bronze);
+
+    // Cuerpo
+    fishGroup[0] = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/sharkie_cuerpo.obj");
+    fishGroup[0]->setMaterial(turquoise);
+
+    // Ojos
+    fishGroup[1] = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/sharkie_ojos.obj");
+    fishGroup[1]->setMaterial(copper);
+
+    // Children
+    HierarchicalRenderable :: addChild(fishGroup[0], fishGroup[1]);
+
+
+    for (int i = 0; i < 2; i++)
+    {
+        viewer.addRenderable(fishGroup[i]);
+    }
+ //   fishGroup[0]->addParentTransformKeyframe(GeometricTransformation( glm::vec3(-300,-300,-30),  glm::quat{1,0,0,0}, 
+   //                                                         glm::vec3(2,2,2)),0); 
+    fishGroup[0]->addParentTransformKeyframe(GeometricTransformation( glm::vec3(-175,-300,-30),  glm::angleAxis(3.14f / 2, glm::vec3(0.0,1.0,0)), 
+                                                            glm::vec3(3,3,3)),0); 
+    
+    return fishGroup[0];
+    
+}
+/*
+
 LightedMeshRenderablePtr createFist(Viewer& viewer, ShaderProgramPtr flatShader){
     
-    LightedMeshRenderablePtr fish = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/Sail_fish.obj");
+    LightedMeshRenderablePtr fish = std::make_shared<LightedMeshRenderable>(flatShader, "./../../sfmlGraphicsPipeline/meshes/sharkie.obj");
     
 /*     for (int i = 0; i < 4; i++)
     {
         viewer.addRenderable(fish[i]);
-    } */
+    } 
 
     viewer.addRenderable(fish);
     // Poner aqui solo el cuerpo, no el resto de las partes
@@ -188,6 +267,8 @@ LightedMeshRenderablePtr createFist(Viewer& viewer, ShaderProgramPtr flatShader)
     //return fish[0];
     return fish;
 }
+
+*/
 
 void movingFist(float initialTime, float intitialTimePos,
                     Viewer& viewer, ShaderProgramPtr flatShader, 
@@ -879,13 +960,13 @@ void initialize_scene( Viewer& viewer )
     {
        seahorseGroup[i] = createSeahorse(viewer,  phongShader);
     }
-    // Adding fist
+    // Adding fish
 
     LightedMeshRenderablePtr* fishGroup = new LightedMeshRenderablePtr[40];
     
     for (int i = 0; i < 40; i++)
     {
-       fishGroup[i] = createSeahorse(viewer,  phongShader);
+       fishGroup[i] = createFISH(viewer,  phongShader);
     }
 
     // ------------- Scenes -----------
