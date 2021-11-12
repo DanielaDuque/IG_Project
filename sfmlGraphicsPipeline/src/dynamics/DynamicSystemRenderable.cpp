@@ -33,9 +33,11 @@ void DynamicSystemRenderable::do_animate(float time )
         m_lastUpdateTime = time;
     }
     if(time > 0 && time <0.1 ){
+      
         for( const ParticlePtr& p : m_system->getParticles() )
         {
             p->restart();
+            
         }
         m_lastUpdateTime = 0;
     }
